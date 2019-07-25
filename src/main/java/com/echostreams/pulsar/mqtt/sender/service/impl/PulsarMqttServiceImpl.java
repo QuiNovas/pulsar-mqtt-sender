@@ -5,10 +5,7 @@ import com.echostreams.pulsar.mqtt.sender.service.PulsarMqttService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -17,14 +14,14 @@ public class PulsarMqttServiceImpl implements PulsarMqttService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsarMqttServiceImpl.class);
 
     @Override
-    public void parseFile(File file) {
+    public void parseFile(File file) throws FileNotFoundException {
         LOGGER.info("Reading file. Path = {}.", file.getAbsolutePath());
         if (file.isDirectory()) {
             LOGGER.error("The given file is a directory. Path = {}.", file.getAbsolutePath());
             throw new RuntimeException("File \"" + file + "\" is a directory!");
         } else if (!file.exists()) {
             LOGGER.error("The file does not exist. Path = {}.", file.getAbsolutePath());
-            return;
+            throw new FileNotFoundException("\"The file does not exist. Path = {}.\", file.getAbsolutePath()");
         }
         Reader reader = null;
         try {

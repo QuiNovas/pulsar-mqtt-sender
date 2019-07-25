@@ -7,10 +7,7 @@ import org.apache.pulsar.shade.org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class PulsarMqttSender {
 
@@ -41,7 +38,7 @@ public class PulsarMqttSender {
 
     }
 
-    private void parseTopicsOrFile(String topicsOrFilepath) {
+    void parseTopicsOrFile(String topicsOrFilepath) throws FileNotFoundException {
         pulsarMqttService = new PulsarMqttServiceImpl();
 
         if (StringUtils.isEmpty(PulsarMqttConstants.PULSAR_SERVICE_URL)
